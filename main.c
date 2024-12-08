@@ -1,11 +1,11 @@
 #include <stdint-gcc.h>
 #include <malloc.h>
 
-#include "bmp_writer.h"
-#include "ray_marching.h"
-#include "vec3.h"
-#include "object.h"
-#include "scene.h"
+#include "IO/bmp_writer.h"
+#include "ray_marching/ray_marching.h"
+#include "math_additions/vec3.h"
+#include "object/object.h"
+#include "scene_meta_inf/scene.h"
 
 #define clamp(val) (uint8_t)(val < 0 ? 0 : (val>255 ? 255 : val))
 

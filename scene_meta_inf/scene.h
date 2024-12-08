@@ -4,7 +4,7 @@
 
 #ifndef TEMP_SCENE_H
 #define TEMP_SCENE_H
-#include "vec3.h"
+#include "../math_additions/vec3.h"
 
 struct scene{
     struct camera* scene_camera;
@@ -12,6 +12,8 @@ struct scene{
     int light_sources_count;
     struct object* scene_objects;
     int scene_objects_count;
+    struct object_relationship* object_relations;
+    int object_relations_count;
 };
 
 struct camera{

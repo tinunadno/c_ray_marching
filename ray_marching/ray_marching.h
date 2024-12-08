@@ -6,8 +6,12 @@
 #define TEMP_RAY_MARCHING_H
 
 #include <stddef.h>
-#include "object.h"
-#include "scene.h"
+#include "../object/object.h"
+#include "../scene_meta_inf/scene.h"
+
+struct vec3 get_color(struct vec3 *vector, struct scene* scene);
+
+struct vec3 get_normal(struct vec3 *vector, struct scene *scene);
 
 struct vec3 march_ray(struct vec3* uv, struct scene* scene);
 #endif //TEMP_RAY_MARCHING_H
