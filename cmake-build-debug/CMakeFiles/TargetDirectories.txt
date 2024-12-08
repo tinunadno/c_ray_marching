@@ -1,0 +1,3 @@
+/home/yura/Applications/clion/clionProjects/temp/cmake-build-debug/CMakeFiles/image-transform.dir
+/home/yura/Applications/clion/clionProjects/temp/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/yura/Applications/clion/clionProjects/temp/cmake-build-debug/CMakeFiles/rebuild_cache.dir

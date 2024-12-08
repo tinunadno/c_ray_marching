@@ -1,0 +1,27 @@
+# ninja log v6
+1	74	1733660205322712600	CMakeFiles/image-transform.dir/ray_marching.o	ed2d39e640ba338b
+2	50	1733658065048233577	CMakeFiles/image-transform.dir/objects.o	237b4b66e1b49176
+1	51	1733660241700680489	CMakeFiles/image-transform.dir/main.o	8421ebc7854222f6
+7	57	1733139310159947614	CMakeFiles/image-transform.dir/CMakeFiles/3.29.6/CompilerIdC/CMakeCCompilerId.o	a963943f3a9e2dba
+1	45	1733140511489635662	CMakeFiles/image-transform.dir/bmp_writer.o	31f649961cd2c8d3
+51	98	1733660241750691595	image-transform	fc2a6fbde9558f1d
+1	7	1733139513625553849	/home/yura/Applications/clion/clionProjects/temp/cmake-build-debug/CMakeFiles/cmake.verify_globs	55548340006a2de0
+2	78	1733615833047164998	CMakeFiles/image-transform.dir/vec3.o	c972b5e38c99f60b
+7	38	1733660951430773620	build.ninja	f787b953a3f15dc8
+2	45	1733661334938211219	CMakeFiles/image-transform.dir/scene.o	c79495ec3a3b5ad6
+2	75	1733661334938211219	CMakeFiles/image-transform.dir/ray_marching.o	ed2d39e640ba338b
+1	46	1733661360384533822	CMakeFiles/image-transform.dir/main.o	8421ebc7854222f6
+46	90	1733661360429534504	image-transform	790aebc2ef25261c
+2	50	1733661385273966730	CMakeFiles/image-transform.dir/scene.o	c79495ec3a3b5ad6
+50	98	1733661385321967671	image-transform	790aebc2ef25261c
+1	44	1733661427779943998	CMakeFiles/image-transform.dir/scene.o	c79495ec3a3b5ad6
+44	87	1733661427822945124	image-transform	790aebc2ef25261c
+1	44	1733661435276144570	CMakeFiles/image-transform.dir/scene.o	c79495ec3a3b5ad6
+44	93	1733661435319145745	image-transform	790aebc2ef25261c
+1	43	1733661448373513694	CMakeFiles/image-transform.dir/scene.o	c79495ec3a3b5ad6
+43	87	1733661448415514916	image-transform	790aebc2ef25261c
+1	54	1733661682761069712	CMakeFiles/image-transform.dir/objects.o	237b4b66e1b49176
+1	71	1733661682761069712	CMakeFiles/image-transform.dir/ray_marching.o	ed2d39e640ba338b
+71	109	1733661682831073169	image-transform	790aebc2ef25261c
+1	91	1733661750804543960	CMakeFiles/image-transform.dir/ray_marching.o	ed2d39e640ba338b
+91	149	1733661750894548691	image-transform	790aebc2ef25261c
