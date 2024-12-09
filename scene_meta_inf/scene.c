@@ -35,7 +35,7 @@ struct scene *setup_scene_settings() {
     scene->object_relations = malloc(sizeof(struct object_relationship) * scene->object_relations_count);
     scene->light_sources = malloc(sizeof(struct vec3) * scene->light_sources_count);
 
-    scene->object_relations[0].object_count = 3;
+    scene->object_relations[0].object_count = 4;
 
     scene->object_relations[0].objects = malloc(sizeof(struct object) * scene->object_relations[0].object_count);
 
@@ -50,6 +50,7 @@ struct scene *setup_scene_settings() {
             0.5f,
             diffuse_and_specular_shader
     };
+
 
     scene->object_relations[0].objects[0] = (struct object) {
             {0, -.8f, 0.2f},
@@ -70,6 +71,13 @@ struct scene *setup_scene_settings() {
             {0, 128, 12},
             0.5f,
             sphere_map,
+            cube_shader
+    };
+    scene->object_relations[0].objects[3] = (struct object){
+            {0, 0, -.5f},
+            {128, 0, 12},
+            0.5f,
+            surface_map,
             cube_shader
     };
 

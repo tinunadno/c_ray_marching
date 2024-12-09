@@ -27,7 +27,7 @@ int main() {
         for (int j = 0; j < x; j++) {
             struct vec3 uv = {0, (((float) j - (float) half_size_x) / (float) half_size_x) * ratio,
                               ((float) i - (float) half_size_y) / (float) half_size_y};
-            struct vec3 color = march_ray(&uv, scene);
+            struct vec3 color = render_pixel(&uv, scene);
 
             screen[row_size * i + j * 3 + 2] = clamp( color.x);
             screen[row_size * i + j * 3 + 1] = clamp( color.y);

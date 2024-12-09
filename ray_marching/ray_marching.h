@@ -13,5 +13,12 @@ struct vec3 get_color(struct vec3 *vector, struct scene* scene);
 
 struct vec3 get_normal(struct vec3 *vector, struct scene *scene);
 
-struct vec3 march_ray(struct vec3* uv, struct scene* scene);
+struct ray_march_return{
+    bool is_crossed;
+    struct vec3 ray;
+};
+
+struct ray_march_return march_ray(struct vec3* position, struct vec3* rotation, struct scene *scene);
+
+struct vec3 render_pixel(struct vec3* uv, struct scene* scene);
 #endif //TEMP_RAY_MARCHING_H

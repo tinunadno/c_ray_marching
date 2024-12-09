@@ -5,16 +5,10 @@
 #include "../scene_meta_inf/scene.h"
 #include "../shader/shader.h"
 
-#define MAX_ITERATION_COUNT 80
-#define LOWER_TRASH_HOLD 0.008f
-#define UPPER_TRASH_HOLD 100000
+#define MAX_ITERATION_COUNT 1000
+#define LOWER_TRASH_HOLD 0.0001f
+#define UPPER_TRASH_HOLD 500000
 #define NORMAL_TRASH_HOLD 0.00001f
-#define AMBIENT_VALUE 0.4f
-#define DIFFUSE_CONSTANT 0.5f
-#define SPECULAR_CONSTANT 0.5f
-#define ALPHA 5.0f
-
-#define clamp(value, lower, upper) (value > upper ? upper : (value < lower ? lower : value))
 
 float map(struct vec3 *vector, struct scene *scene) {
     float min_map = UPPER_TRASH_HOLD;
@@ -74,68 +68,48 @@ struct vec3 get_normal(struct vec3 *vector, struct scene *scene) {
     return ret;
 }
 
-//struct vec3 process_shader(struct vec3 *pos, struct scene *scene) {
-//
-//    struct vec3 color = get_color(pos, scene);
-//    struct vec3 ambient = color;
-//    mul_scal_vec3(&ambient, AMBIENT_VALUE);
-//
-//    struct vec3 diffusion_and_specular = {0, 0, 0};
-//    struct vec3 normal = get_normal(pos, scene);
-//
-//    for (int i = 0; i < scene->light_sources_count; i++) {
-//        struct vec3 pos_light_vector = scene->light_sources[i];
-//        sub_vec3(&pos_light_vector, pos);
-//        normalize(&pos_light_vector);
-//        float diffusion_value = DIFFUSE_CONSTANT * clamp(dot_product(&pos_light_vector, &normal), 0.0f, 1.0f);
-//        struct vec3 diffusion_color = color;
-//        mul_scal_vec3(&diffusion_color, diffusion_value);
-//
-//        struct vec3 reflect = normal;
-//        mul_scal_vec3(&reflect, 2.0f * dot_product(&pos_light_vector, &normal));
-//        sub_vec3(&reflect, &pos_light_vector);
-//        normalize(&reflect);
-//        struct vec3 specular = {255, 255, 255};
-//        struct vec3 viewer_vector = scene->scene_camera->camera_position;
-//        sub_vec3(&viewer_vector, pos);
-//        normalize(&viewer_vector);
-//        float specular_value =
-//                SPECULAR_CONSTANT * (powf(clamp(dot_product(&reflect, &viewer_vector), 0.0f, 1.0f), ALPHA));
-//        mul_scal_vec3(&specular, specular_value);
-//
-//        add_vec3(&diffusion_and_specular, &diffusion_color);
-//        add_vec3(&diffusion_and_specular, &specular);
-//    }
-//
-//    add_vec3(&ambient, &diffusion_and_specular);
-//    return ambient;
-//}
+struct ray_march_return{
+  bool is_crossed;
+  struct vec3 ray;
+};
 
-struct vec3 march_ray(struct vec3 *uv, struct scene *scene) {
+struct ray_march_return march_ray(struct vec3* position, struct vec3* rotation, struct scene *scene) {
 
+    struct vec3 local_rotation = *rotation;
+    int k = 0;
+    struct vec3 ray = *position;
+    add_vec3(&ray, &local_rotation);
+    float distance = map(&ray, scene);
+    struct vec3 prev_rotation = local_rotation;
+    while (k++ < MAX_ITERATION_COUNT && distance < UPPER_TRASH_HOLD && distance > LOWER_TRASH_HOLD) {
+        normalize(&local_rotation);
+        mul_scal_vec3(&local_rotation, distance);
+        add_vec3(&local_rotation, &prev_rotation);
+        prev_rotation = local_rotation;
+        ray = scene->scene_camera->camera_position;
+        add_vec3(&ray, &local_rotation);
+        distance = map(&ray, scene);
+    }
+
+    return (struct ray_march_return){
+            distance <= LOWER_TRASH_HOLD,
+            ray
+    };
+}
+
+struct vec3 render_pixel(struct vec3* uv, struct scene* scene){
     struct vec3 rotation = scene->scene_camera->camera_rotation;
     sub_vec3(&rotation, &scene->scene_camera->camera_position);
     add_vec3(&rotation, uv);
     normalize(&rotation);
 
-    int k = 0;
-    struct vec3 ray = scene->scene_camera->camera_position;
-    add_vec3(&ray, &rotation);
-    float distance = map(&ray, scene);
-    struct vec3 prev_rotation = rotation;
-    while (k++ < MAX_ITERATION_COUNT && distance < UPPER_TRASH_HOLD && distance > LOWER_TRASH_HOLD) {
-        normalize(&rotation);
-        mul_scal_vec3(&rotation, distance);
-        add_vec3(&rotation, &prev_rotation);
-        prev_rotation = rotation;
-        ray = scene->scene_camera->camera_position;
-        add_vec3(&ray, &rotation);
-        distance = map(&ray, scene);
-    }
+    struct ray_march_return result = march_ray(&scene->scene_camera->camera_position, &rotation, scene);
 
-    if (distance <= LOWER_TRASH_HOLD) {
-        return get_color(&ray, scene);
-    } else {
-        return (struct vec3) {0.0f, 0.0f, 0.0f};
+    if(result.is_crossed){
+        return get_color(&result.ray, scene);
+    }else{
+        return (struct vec3){
+            0,0,0
+        };
     }
 }

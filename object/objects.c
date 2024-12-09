@@ -32,6 +32,10 @@ float sphere_map(struct vec3 *obj_pos, struct vec3 *ray_pos, float size) {
     return get_len(&local_pos) - size;
 }
 
+float surface_map(struct vec3* obj_pos, struct vec3* ray_pos, float size){
+    return ray_pos->z - obj_pos->z;
+}
+
 float cube_map(struct vec3 *obj_pos, struct vec3 *ray_pos, float size) {
     struct vec3 local_pos = *ray_pos;
     sub_vec3(&local_pos, obj_pos);
@@ -62,6 +66,7 @@ float merge_map(struct vec3 *ray_pos, struct object *objects, int object_count) 
     }
     return smooth_min;
 }
+
 
 struct vec3 merge_shader(struct vec3 *ray_pos, struct scene *scene, int relation_index) {
     float smooth_factor = .3f;

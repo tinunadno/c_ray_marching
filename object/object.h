@@ -28,6 +28,8 @@ float sphere_map(struct vec3* obj_pos, struct vec3* ray_pos, float size);
 
 float cube_map(struct vec3* obj_pos, struct vec3* ray_pos, float size);
 
+float surface_map(struct vec3* obj_pos, struct vec3* ray_pos, float size);
+
 float merge_map(struct vec3* ray_pos, struct object* objects, int object_count);
 
 struct vec3 merge_shader(struct vec3 *ray_pos, struct scene *scene, int relation_index);
