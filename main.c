@@ -35,5 +35,6 @@ int main() {
         }
     }
     destroy_scene(scene);
+    asd();
     return write_bmp_file("./output.bmp", screen, x, y);
 }

@@ -55,12 +55,12 @@ struct scene *setup_scene_settings() {
     scene->object_relations[0].objects[0] = (struct object) {
             {0, -.8f, 0.2f},
             {128, 0, 12},
-            0.5f,
+            1.0f,
             cube_map,
             cube_shader
     };
     scene->object_relations[0].objects[1] = (struct object) {
-            {0, 0.0f, 0},
+            {-1, 0.0f, 0},
             {100, 0, 128},
             1.0f,
             sphere_map,
@@ -76,17 +76,17 @@ struct scene *setup_scene_settings() {
     scene->object_relations[0].objects[3] = (struct object){
             {0, 0, -.5f},
             {128, 0, 12},
-            0.5f,
+            6.0f,
             surface_map,
             cube_shader
     };
 
 
     scene->light_sources[0] = (struct vec3) {
-            -5.0f, 5.0f, 5.0f
+            5.0f, 5.0f, 5.0f
     };
     scene->light_sources[1] = (struct vec3) {
-            -5.0f, -5.0f, 5.0f
+            5.0f, -5.0f, 5.0f
     };
     scene->light_sources[2] = (struct vec3) {
             -5.0f, -5.0f, -5.0f

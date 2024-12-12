@@ -21,4 +21,5 @@ struct ray_march_return{
 struct ray_march_return march_ray(struct vec3* position, struct vec3* rotation, struct scene *scene);
 
 struct vec3 render_pixel(struct vec3* uv, struct scene* scene);
+void asd();
 #endif //TEMP_RAY_MARCHING_H

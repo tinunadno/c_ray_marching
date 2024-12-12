@@ -32,6 +32,14 @@ float surface_map(struct vec3* obj_pos, struct vec3* ray_pos, float size);
 
 float merge_map(struct vec3* ray_pos, struct object* objects, int object_count);
 
+float intersect_map(struct vec3 *ray_pos, struct object *objects, int object_count);
+
+float union_map(struct vec3 *ray_pos, struct object *objects, int object_count);
+
+float difference_map(struct vec3 *ray_pos, struct object *objects, int object_count);
+
 struct vec3 merge_shader(struct vec3 *ray_pos, struct scene *scene, int relation_index);
+
+struct vec3 intersect_shader(struct vec3 *ray_pos, struct scene *scene, int relation_index);
 
 #endif //TEMP_OBJECT_H
