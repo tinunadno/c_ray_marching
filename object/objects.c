@@ -1,8 +1,11 @@
 #include <math.h>
 #include <float.h>
+#include <malloc.h>
 #include "../math_additions/vec3.h"
 #include "../scene_meta_inf/scene.h"
 #include "../shader/shader.h"
+#include "../rotation_stuff/rotation.h"
+#include "../some_structures/linked_list.h"
 
 #define min(a, b) (a<=b ? a : b)
 #define max(a, b) (a>=b ? a : b)
@@ -17,7 +20,21 @@ struct object {
     float (*map)(struct vec3 *obj_pos, struct vec3 *ray_pos, float size);
 
     struct shader *shader;
+    struct rotation *rotation;
 };
+
+void destroy_object(struct object *obj, struct node* freed_pointers) {
+    if(!contains_element(freed_pointers, (size_t)(void*)obj->shader)) {
+        add_element(&freed_pointers, (size_t)(void*)obj->shader);
+        free(obj->shader);
+    }
+    if (obj->rotation != NULL) {
+        if(!contains_element(freed_pointers, (size_t)(void*)obj->rotation)) {
+            add_element(&freed_pointers, (size_t)(void*)obj->rotation);
+            free(obj->rotation);
+        }
+    }
+}
 
 struct object_relationship {
     struct object *objects;
@@ -27,6 +44,14 @@ struct object_relationship {
 
     struct vec3 (*process_shaders)(struct vec3 *pos, struct scene *scene, int relation_index);
 };
+
+void destroy_object_relationship(struct object_relationship *or, struct node* freed_pointers) {
+    for (int i = 0; i < or->object_count; i++) {
+        destroy_object(&or->objects[i], freed_pointers);
+    }
+    free(or->objects);
+    free(or);
+}
 
 float sphere_map(struct vec3 *obj_pos, struct vec3 *ray_pos, float size) {
     struct vec3 local_pos = *ray_pos;
@@ -43,7 +68,7 @@ float cube_map(struct vec3 *obj_pos, struct vec3 *ray_pos, float size) {
     sub_vec3(&local_pos, obj_pos);
     vec3_abs(&local_pos);
     sub_scalar(&local_pos, size);
-    float clamped_dist = min(max(local_pos.x,max(local_pos.y,local_pos.z)),0.0);
+    float clamped_dist = min(max(local_pos.x, max(local_pos.y, local_pos.z)), 0.0);
     clamp_vec3_lower_bound(&local_pos, 0.0f);
     add_scalar(&local_pos, clamped_dist);
     return get_len(&local_pos);
@@ -71,7 +96,7 @@ float intersect_map(struct vec3 *ray_pos, struct object *objects, int object_cou
     return max_map;
 }
 
-float union_map(struct vec3 *ray_pos, struct object *objects, int object_count){
+float union_map(struct vec3 *ray_pos, struct object *objects, int object_count) {
     float min_map = objects[0].map(&objects[0].position, ray_pos, objects[0].size);
     for (int i = 1; i < object_count; i++) {
         min_map = min(min_map, objects[i].map(&objects[i].position, ray_pos, objects[i].size));
@@ -79,7 +104,7 @@ float union_map(struct vec3 *ray_pos, struct object *objects, int object_count){
     return min_map;
 }
 
-float difference_map(struct vec3 *ray_pos, struct object *objects, int object_count){
+float difference_map(struct vec3 *ray_pos, struct object *objects, int object_count) {
     float max_map = objects[0].map(&objects[0].position, ray_pos, objects[0].size);
     for (int i = 1; i < object_count; i++) {
         max_map = max(max_map, -objects[i].map(&objects[i].position, ray_pos, objects[i].size));
@@ -122,7 +147,7 @@ struct vec3 intersect_shader(struct vec3 *ray_pos, struct scene *scene, int rela
         float distance = abs(scene->object_relations[relation_index].objects[i].map(
                 &scene->object_relations[relation_index].objects[i].position, ray_pos,
                 scene->object_relations[relation_index].objects[i].size));
-        if(distance < min_dist){
+        if (distance < min_dist) {
             min_dist = distance;
             closest_index = i;
         }

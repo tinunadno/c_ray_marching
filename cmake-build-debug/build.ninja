@@ -98,6 +98,20 @@ build CMakeFiles/image-transform.dir/shader/shader.o: C_COMPILER__image-transfor
   OBJECT_DIR = CMakeFiles/image-transform.dir
   OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/shader
 
+build CMakeFiles/image-transform.dir/rotation_stuff/rotation.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/rotation_stuff/rotation.c || cmake_object_order_depends_target_image-transform
+  DEP_FILE = CMakeFiles/image-transform.dir/rotation_stuff/rotation.o.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
+  OBJECT_DIR = CMakeFiles/image-transform.dir
+  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/rotation_stuff
+
+build CMakeFiles/image-transform.dir/some_structures/linked_list.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/some_structures/linked_list.c || cmake_object_order_depends_target_image-transform
+  DEP_FILE = CMakeFiles/image-transform.dir/some_structures/linked_list.o.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
+  OBJECT_DIR = CMakeFiles/image-transform.dir
+  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/some_structures
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target image-transform
@@ -106,7 +120,7 @@ build CMakeFiles/image-transform.dir/shader/shader.o: C_COMPILER__image-transfor
 #############################################
 # Link the executable image-transform
 
-build image-transform: C_EXECUTABLE_LINKER__image-transform_Debug CMakeFiles/image-transform.dir/main.o CMakeFiles/image-transform.dir/IO/bmp_writer.o CMakeFiles/image-transform.dir/ray_marching/ray_marching.o CMakeFiles/image-transform.dir/object/objects.o CMakeFiles/image-transform.dir/math_additions/vec3.o CMakeFiles/image-transform.dir/scene_meta_inf/scene.o CMakeFiles/image-transform.dir/shader/shader.o
+build image-transform: C_EXECUTABLE_LINKER__image-transform_Debug CMakeFiles/image-transform.dir/main.o CMakeFiles/image-transform.dir/IO/bmp_writer.o CMakeFiles/image-transform.dir/ray_marching/ray_marching.o CMakeFiles/image-transform.dir/object/objects.o CMakeFiles/image-transform.dir/math_additions/vec3.o CMakeFiles/image-transform.dir/scene_meta_inf/scene.o CMakeFiles/image-transform.dir/shader/shader.o CMakeFiles/image-transform.dir/rotation_stuff/rotation.o CMakeFiles/image-transform.dir/some_structures/linked_list.o
   FLAGS = -g
   LINK_FLAGS = -rdynamic
   LINK_LIBRARIES = -lm

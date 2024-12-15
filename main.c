@@ -4,15 +4,14 @@
 #include "IO/bmp_writer.h"
 #include "ray_marching/ray_marching.h"
 #include "math_additions/vec3.h"
-#include "object/object.h"
 #include "scene_meta_inf/scene.h"
 
 #define clamp(val) (uint8_t)(val < 0 ? 0 : (val>255 ? 255 : val))
 
 int main() {
 
-    int x = 800;
-    int y = 400;
+    int x = 400;
+    int y = 200;
     int half_size_x = x / 2;
     int half_size_y = y / 2;
     float ratio = (float) x / (float) y;

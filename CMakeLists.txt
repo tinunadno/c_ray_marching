@@ -12,7 +12,11 @@ add_executable(image-transform ${sources}
         scene_meta_inf/scene.h
         shader/shader.c
         shader/shader.h
-        shader/shader.c)
+        shader/shader.c
+        rotation_stuff/rotation.c
+        rotation_stuff/rotation.h
+        some_structures/linked_list.c
+        some_structures/linked_list.h)
 target_include_directories(image-transform PRIVATE src include)
 
 target_link_libraries(image-transform m)

@@ -5,6 +5,10 @@ struct vec3 {
     float x, y, z;
 };
 
+struct vec4 {
+    float x, y, z, w;
+};
+
 void add_vec3(struct vec3 *fst_vec, struct vec3 *snd_vec);
 
 void sub_vec3(struct vec3 *fst_vec, struct vec3 *snd_vec);
@@ -25,9 +29,10 @@ float get_len(struct vec3 *vec);
 
 void normalize(struct vec3 *vec);
 
-void vec3_abs(struct vec3* vec);
+void vec3_abs(struct vec3 *vec);
 
 void clamp_vec3_lower_bound(struct vec3 *vec, float lower_value);
 
-float dot_product(struct vec3* a, struct vec3* b);
+float dot_product(struct vec3 *a, struct vec3 *b);
+
 #endif //TEMP_VEC3_H

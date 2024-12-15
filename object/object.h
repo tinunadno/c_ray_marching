@@ -7,13 +7,17 @@
 
 #include <stdbool.h>
 #include "../math_additions/vec3.h"
-struct object{
+#include "../some_structures/linked_list.h"
+struct object {
     struct vec3 position;
     struct vec3 color;
     float size;
-    float (*map)(struct vec3* obj_pos, struct vec3* ray_pos, float size);
-    struct shader* shader;
+    float (*map)(struct vec3 *obj_pos, struct vec3 *ray_pos, float size);
+    struct shader *shader;
+    struct rotation* rotation;
 };
+
+void destroy_object(struct object* obj, struct node* freed_pointers);
 
 struct object_relationship {
     struct object *objects;
@@ -23,6 +27,8 @@ struct object_relationship {
 
     struct vec3 (*process_shaders)(struct vec3 *pos, struct scene *scene, int relation_index);
 };
+
+void destroy_object_relationship(struct object_relationship* or, struct node* freed_pointers);
 
 float sphere_map(struct vec3* obj_pos, struct vec3* ray_pos, float size);
 

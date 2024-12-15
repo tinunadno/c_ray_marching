@@ -3,6 +3,10 @@
 #include "../math_additions/vec3.h"
 #include "../object/object.h"
 #include "../shader/shader.h"
+#include "../rotation_stuff/rotation.h"
+#include "../some_structures/linked_list.h"
+
+#define PI4th 0.78539816339f
 
 struct scene {
     struct camera *scene_camera;
@@ -35,7 +39,7 @@ struct scene *setup_scene_settings() {
     scene->object_relations = malloc(sizeof(struct object_relationship) * scene->object_relations_count);
     scene->light_sources = malloc(sizeof(struct vec3) * scene->light_sources_count);
 
-    scene->object_relations[0].object_count = 4;
+    scene->object_relations[0].object_count = 3;
 
     scene->object_relations[0].objects = malloc(sizeof(struct object) * scene->object_relations[0].object_count);
 
@@ -51,34 +55,37 @@ struct scene *setup_scene_settings() {
             diffuse_and_specular_shader
     };
 
+    struct rotation* cube_rotation = malloc(sizeof(struct rotation));
+    *cube_rotation = (struct rotation){
+            .rotation_angles = (struct vec3){PI4th, 0, 0},
+            .rotation_type = MATRIX_ROTATION,
+            .calculate_rotation = calculate_matrix_rotation_matrix,
+            .apply_rotation = apply_matrix_rotation
+    };
 
     scene->object_relations[0].objects[0] = (struct object) {
             {0, -.8f, 0.2f},
             {128, 0, 12},
             1.0f,
             cube_map,
-            cube_shader
+            cube_shader,
+            cube_rotation
     };
     scene->object_relations[0].objects[1] = (struct object) {
             {-1, 0.0f, 0},
             {100, 0, 128},
             1.0f,
             sphere_map,
-            cube_shader
+            cube_shader,
+            0
     };
     scene->object_relations[0].objects[2] = (struct object){
-            {0, 1.2f, 0.2f},
+            {-1.0f, 1.2f, 0.2f},
             {0, 128, 12},
             0.5f,
             sphere_map,
-            cube_shader
-    };
-    scene->object_relations[0].objects[3] = (struct object){
-            {0, 0, -.5f},
-            {128, 0, 12},
-            6.0f,
-            surface_map,
-            cube_shader
+            cube_shader,
+            0
     };
 
 
@@ -97,13 +104,16 @@ struct scene *setup_scene_settings() {
 void destroy_scene(struct scene *scene) {
     free(scene->scene_camera);
     free(scene->light_sources);
-    if (scene->scene_objects_count != 0)
-        free(scene->scene_objects);
-    if (scene->object_relations_count != 0) {
-        for (int i = 0; i < scene->object_relations_count; i++) {
-            free(scene->object_relations[i].objects);
-        }
-        free(scene->object_relations);
+    struct node* freed_pointers = create_node(0);
+    for(int i = 0;i<scene->scene_objects_count; i++){
+        destroy_object(&scene->scene_objects[i], freed_pointers);
     }
+    if(scene->scene_objects_count!=0){
+        free(scene->scene_objects);
+    }
+    for (int i = 0; i < scene->object_relations_count; i++) {
+        destroy_object_relationship(&scene->object_relations[i], freed_pointers);
+    }
+    free_list(&freed_pointers);
     free(scene);
 }
