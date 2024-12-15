@@ -19,7 +19,7 @@ int main() {
     int row_size = (x * 3);
 
     struct scene* scene = setup_scene_settings();
-
+    calculate_rotations(scene);
 
 
     for (int i = 0; i < y; i++) {

@@ -23,5 +23,7 @@ struct camera{
 
 struct scene* setup_scene_settings();
 
+void calculate_rotations(struct scene* scene);
+
 void destroy_scene(struct scene* scene);
 #endif //TEMP_SCENE_H

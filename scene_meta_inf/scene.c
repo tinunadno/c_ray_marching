@@ -46,8 +46,8 @@ struct scene *setup_scene_settings() {
     scene->object_relations[0].map = merge_map;
     scene->object_relations[0].process_shaders = merge_shader;
 
-    struct shader* cube_shader = malloc(sizeof(struct shader));
-    *cube_shader = (struct shader){
+    struct shader *cube_shader = malloc(sizeof(struct shader));
+    *cube_shader = (struct shader) {
             0.4f,
             4.0f,
             0.5f,
@@ -55,12 +55,12 @@ struct scene *setup_scene_settings() {
             diffuse_and_specular_shader
     };
 
-    struct rotation* cube_rotation = malloc(sizeof(struct rotation));
-    *cube_rotation = (struct rotation){
-            .rotation_angles = (struct vec3){PI4th, 0, 0},
-            .rotation_type = MATRIX_ROTATION,
-            .calculate_rotation = calculate_matrix_rotation_matrix,
-            .apply_rotation = apply_matrix_rotation
+    struct rotation *cube_rotation = malloc(sizeof(struct rotation));
+    *cube_rotation = (struct rotation) {
+            .rotation_angles = (struct vec3) {PI4th, 0, 0},
+            .rotation_type = QUATERNION_ROTATION,
+            .calculate_rotation = calculate_quaternion_rotation,
+            .apply_rotation = apply_quaternion_rotation
     };
 
     scene->object_relations[0].objects[0] = (struct object) {
@@ -79,7 +79,7 @@ struct scene *setup_scene_settings() {
             cube_shader,
             0
     };
-    scene->object_relations[0].objects[2] = (struct object){
+    scene->object_relations[0].objects[2] = (struct object) {
             {-1.0f, 1.2f, 0.2f},
             {0, 128, 12},
             0.5f,
@@ -101,14 +101,28 @@ struct scene *setup_scene_settings() {
     return scene;
 }
 
+void calculate_rotations(struct scene *scene) {
+    for (int i = 0; i < scene->scene_objects_count; i++) {
+        scene->scene_objects[i].rotation->calculate_rotation(scene->scene_objects[i].rotation);
+    }
+    for (int i = 0; i < scene->object_relations_count; i++) {
+        for (int j = 0; j < scene->object_relations[i].object_count; j++) {
+            if (scene->object_relations[i].objects[j].rotation != NULL) {
+                scene->object_relations[i].objects[j].rotation->calculate_rotation(
+                        scene->object_relations[i].objects[j].rotation);
+            }
+        }
+    }
+}
+
 void destroy_scene(struct scene *scene) {
     free(scene->scene_camera);
     free(scene->light_sources);
-    struct node* freed_pointers = create_node(0);
-    for(int i = 0;i<scene->scene_objects_count; i++){
+    struct node *freed_pointers = create_node(0);
+    for (int i = 0; i < scene->scene_objects_count; i++) {
         destroy_object(&scene->scene_objects[i], freed_pointers);
     }
-    if(scene->scene_objects_count!=0){
+    if (scene->scene_objects_count != 0) {
         free(scene->scene_objects);
     }
     for (int i = 0; i < scene->object_relations_count; i++) {

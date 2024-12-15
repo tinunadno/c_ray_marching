@@ -12,7 +12,7 @@ struct object {
     struct vec3 position;
     struct vec3 color;
     float size;
-    float (*map)(struct vec3 *obj_pos, struct vec3 *ray_pos, float size);
+    float (*map)(struct object* obj, struct vec3* ray_pos);
     struct shader *shader;
     struct rotation* rotation;
 };
@@ -30,11 +30,11 @@ struct object_relationship {
 
 void destroy_object_relationship(struct object_relationship* or, struct node* freed_pointers);
 
-float sphere_map(struct vec3* obj_pos, struct vec3* ray_pos, float size);
+float sphere_map(struct object* obj, struct vec3* ray_pos);
 
-float cube_map(struct vec3* obj_pos, struct vec3* ray_pos, float size);
+float cube_map(struct object* obj, struct vec3* ray_pos);
 
-float surface_map(struct vec3* obj_pos, struct vec3* ray_pos, float size);
+float surface_map(struct object* obj, struct vec3* ray_pos);
 
 float merge_map(struct vec3* ray_pos, struct object* objects, int object_count);
 

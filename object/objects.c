@@ -17,7 +17,7 @@ struct object {
     struct vec3 color;
     float size;
 
-    float (*map)(struct vec3 *obj_pos, struct vec3 *ray_pos, float size);
+    float (*map)(struct object* obj, struct vec3* ray_pos);
 
     struct shader *shader;
     struct rotation *rotation;
@@ -53,21 +53,22 @@ void destroy_object_relationship(struct object_relationship *or, struct node* fr
     free(or);
 }
 
-float sphere_map(struct vec3 *obj_pos, struct vec3 *ray_pos, float size) {
+float sphere_map(struct object* obj, struct vec3* ray_pos) {
     struct vec3 local_pos = *ray_pos;
-    sub_vec3(&local_pos, obj_pos);
-    return get_len(&local_pos) - size;
+    sub_vec3(&local_pos, &obj->position);
+    return get_len(&local_pos) - obj->size;
 }
 
-float surface_map(struct vec3 *obj_pos, struct vec3 *ray_pos, float size) {
-    return ((get_len(ray_pos) > size) ? FLT_MAX : ray_pos->z - obj_pos->z);
+float surface_map(struct object* obj, struct vec3* ray_pos) {
+    return ((get_len(ray_pos) > obj->size) ? FLT_MAX : ray_pos->z - obj->position.z);
 }
 
-float cube_map(struct vec3 *obj_pos, struct vec3 *ray_pos, float size) {
+float cube_map(struct object* obj, struct vec3* ray_pos) {
     struct vec3 local_pos = *ray_pos;
-    sub_vec3(&local_pos, obj_pos);
+    sub_vec3(&local_pos, &obj->position);
+    obj->rotation->apply_rotation(&local_pos, obj->rotation);
     vec3_abs(&local_pos);
-    sub_scalar(&local_pos, size);
+    sub_scalar(&local_pos, obj->size);
     float clamped_dist = min(max(local_pos.x, max(local_pos.y, local_pos.z)), 0.0);
     clamp_vec3_lower_bound(&local_pos, 0.0f);
     add_scalar(&local_pos, clamped_dist);
@@ -81,33 +82,33 @@ static float smin(float a, float b, float k) {
 
 float merge_map(struct vec3 *ray_pos, struct object *objects, int object_count) {
     float k = .3f;
-    float smooth_min = objects[0].map(&objects[0].position, ray_pos, objects[0].size);
+    float smooth_min = objects[0].map(&objects[0], ray_pos);
     for (int i = 1; i < object_count; i++) {
-        smooth_min = smin(smooth_min, objects[i].map(&objects[i].position, ray_pos, objects[i].size), k);
+        smooth_min = smin(smooth_min, objects[i].map(&objects[i], ray_pos), k);
     }
     return smooth_min;
 }
 
 float intersect_map(struct vec3 *ray_pos, struct object *objects, int object_count) {
-    float max_map = objects[0].map(&objects[0].position, ray_pos, objects[0].size);
+    float max_map = objects[0].map(&objects[0], ray_pos);
     for (int i = 1; i < object_count; i++) {
-        max_map = max(max_map, objects[i].map(&objects[i].position, ray_pos, objects[i].size));
+        max_map = max(max_map, objects[i].map(&objects[i], ray_pos));
     }
     return max_map;
 }
 
 float union_map(struct vec3 *ray_pos, struct object *objects, int object_count) {
-    float min_map = objects[0].map(&objects[0].position, ray_pos, objects[0].size);
+    float min_map = objects[0].map(&objects[0], ray_pos);
     for (int i = 1; i < object_count; i++) {
-        min_map = min(min_map, objects[i].map(&objects[i].position, ray_pos, objects[i].size));
+        min_map = min(min_map, objects[i].map(&objects[i], ray_pos));
     }
     return min_map;
 }
 
 float difference_map(struct vec3 *ray_pos, struct object *objects, int object_count) {
-    float max_map = objects[0].map(&objects[0].position, ray_pos, objects[0].size);
+    float max_map = objects[0].map(&objects[0], ray_pos);
     for (int i = 1; i < object_count; i++) {
-        max_map = max(max_map, -objects[i].map(&objects[i].position, ray_pos, objects[i].size));
+        max_map = max(max_map, -objects[i].map(&objects[i], ray_pos));
     }
     return max_map;
 }
@@ -120,8 +121,7 @@ struct vec3 merge_shader(struct vec3 *ray_pos, struct scene *scene, int relation
 
     for (int i = 0; i < scene->object_relations[relation_index].object_count; i++) {
         float distance = scene->object_relations[relation_index].objects[i].map(
-                &scene->object_relations[relation_index].objects[i].position, ray_pos,
-                scene->object_relations[relation_index].objects[i].size);
+                &scene->object_relations[relation_index].objects[i], ray_pos);
         float weight = expf(-distance / smooth_factor);
         total_weight += weight;
         struct vec3 object_color = scene->object_relations[relation_index].objects[i].shader->process_shader(
@@ -145,8 +145,7 @@ struct vec3 intersect_shader(struct vec3 *ray_pos, struct scene *scene, int rela
     float min_dist = FLT_MAX;
     for (int i = 0; i < scene->object_relations[relation_index].object_count; i++) {
         float distance = abs(scene->object_relations[relation_index].objects[i].map(
-                &scene->object_relations[relation_index].objects[i].position, ray_pos,
-                scene->object_relations[relation_index].objects[i].size));
+                &scene->object_relations[relation_index].objects[i], ray_pos));
         if (distance < min_dist) {
             min_dist = distance;
             closest_index = i;

@@ -17,8 +17,7 @@ float map(struct vec3 *vector, struct scene *scene) {
     float min_map = UPPER_TRASH_HOLD;
     for (int i = 0; i < scene->scene_objects_count; i++) {
         //float (*map)(struct vec3* obj_pos, struct vec3* ray_pos, float size)
-        float current_map = scene->scene_objects[i].map(&scene->scene_objects[i].position, vector,
-                                                        scene->scene_objects[i].size);
+        float current_map = scene->scene_objects[i].map(&scene->scene_objects[i], vector);
         if (current_map < min_map) {
             min_map = current_map;
         }
@@ -38,8 +37,7 @@ struct vec3 get_color(struct vec3 *vector, struct scene *scene) {
     struct vec3 color = {0, 0, 0};
     for (int i = 0; i < scene->scene_objects_count; i++) {
         //float (*map)(struct vec3* obj_pos, struct vec3* ray_pos, float size)
-        float current_map = scene->scene_objects[i].map(&scene->scene_objects[i].position, vector,
-                                                        scene->scene_objects[i].size);
+        float current_map = scene->scene_objects[i].map(&scene->scene_objects[i], vector);
         if (current_map < min_map) {
             min_map = current_map;
             //struct vec3 (*process_shader)(struct vec3* pos, struct vec3* color, struct scene* scene, struct shader* shader);

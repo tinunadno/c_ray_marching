@@ -29,8 +29,8 @@ struct vec3 diffuse_and_specular_shader(struct vec3* pos, struct vec3* color, st
         float diffusion_value = shader->diffuse * clamp(dot_product(&pos_light_vector, &normal), 0.0f, 1.0f);
         struct vec3 diffusion_color = *color;
         mul_scal_vec3(&diffusion_color, diffusion_value);
-        struct ray_march_return rmr = march_ray(pos, &pos_light_vector, scene);
-        if(!rmr.is_crossed) {
+//        struct ray_march_return rmr = march_ray(pos, &pos_light_vector, scene);
+//        if(!rmr.is_crossed) {
             struct vec3 reflect = normal;
             mul_scal_vec3(&reflect, 2.0f * dot_product(&pos_light_vector, &normal));
             sub_vec3(&reflect, &pos_light_vector);
@@ -43,7 +43,7 @@ struct vec3 diffuse_and_specular_shader(struct vec3* pos, struct vec3* color, st
                     shader->specular * (powf(clamp(dot_product(&reflect, &viewer_vector), 0.0f, 1.0f), shader->alpha));
             mul_scal_vec3(&specular, specular_value);
             add_vec3(&diffusion_and_specular, &specular);
-        }
+//        }
         add_vec3(&diffusion_and_specular, &diffusion_color);
     }
 
