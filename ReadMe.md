@@ -8,7 +8,7 @@ SDF example for sphere and cube (two-dimensional)
 
 A vector describing the ray for a given pixel is constructed from the camera
 
-![pixel_vector_description.png](contents/pixel_vector_description.png)
+![pixel_vector_description.png](contents/ray_marching_explanation/pixel_vector_description.png)
 
 then the ray *increases* by the SDF value at a given point
 until it either becomes too long (=> the object has not been crossed) or
@@ -16,22 +16,22 @@ the SDF value for this vector becomes small enough(=> the object has been crosse
 
 it will look something like this
 
-![ray_step_example.png](contents/ray_step_example.png)
+![ray_step_example.png](contents/ray_marching_explanation/ray_step_example.png)
 
 also, raymarching allows you to make a smooth transition between
 two objects, intersect objects, and the difference between objects
 
 merge example
 
-![merge_example.png](contents/merge_example.png)
+![merge_example.png](contents/ray_marching_explanation/merge_example.png)
 
 difference example
 
-![difference_example.png](contents/difference_example.png)
+![difference_example.png](contents/ray_marching_explanation/difference_example.png)
 
 intersection example
 
-![intersection_example.png](contents/intersection_example.png)
+![intersection_example.png](contents/ray_marching_explanation/intersection_example.png)
 
 **Realization description**
 
@@ -91,7 +91,7 @@ shader values, and some information about scene(camera position and light source
 
 ambient, alpha, diffuse and specular are values needed for phong reflection (alpha used in its formula)
 
-![img.png](contents/phong_reflection.png)
+![img.png](contents/other_stuff/phong_reflection.png)
 
 structure rotation (in struct object) is a structure describing rotation in a few possible ways(now matrix and
 quaternion) (./rotation_stuff/)
@@ -223,8 +223,8 @@ just comment this "if" and ray calculation:
 
 **Render examples**
 
-![img.png](contents/render_example1.png)
+![img.png](contents/render_examples/render_example1.png)
 
-![render_example2.png](contents/render_example2.png)
+![render_example2.png](contents/render_examples/render_example2.png)
 
-![render_example3.png](contents/render_example3.png)
+![render_example3.png](contents/render_examples/render_example3.png)
