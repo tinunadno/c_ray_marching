@@ -4,7 +4,7 @@ each object is described by the SDF (signed distance function)
 
 SDF example for sphere and cube (two-dimensional)
 
-![Basic SDF.png](contents/Basic%20SDF.png)
+![Basic SDF.png](contents/ray_marching_explanation/Basic%20SDF.png)
 
 A vector describing the ray for a given pixel is constructed from the camera
 
