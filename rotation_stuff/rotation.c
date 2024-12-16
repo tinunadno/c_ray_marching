@@ -13,9 +13,7 @@ struct rotation {
         float rotation_matrix[9];
         float quaternion[4];
     };
-
     void (*calculate_rotation)(struct rotation *mr);
-
     void (*apply_rotation)(struct vec3 *vector, struct rotation *mr);
 };
 

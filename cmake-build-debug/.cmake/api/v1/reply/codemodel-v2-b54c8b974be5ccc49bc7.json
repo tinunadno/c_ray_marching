@@ -23,7 +23,7 @@
 					[
 						0
 					],
-					"name" : "Project",
+					"name" : "ray_marching",
 					"targetIndexes" : 
 					[
 						0
@@ -34,9 +34,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "image-transform::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-image-transform-Debug-c82d7aa8a705a185bb89.json",
-					"name" : "image-transform",
+					"id" : "ray-marching::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ray-marching-Debug-c5b2b5e4524179c38536.json",
+					"name" : "ray-marching",
 					"projectIndex" : 0
 				}
 			]

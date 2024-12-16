@@ -16,9 +16,7 @@ struct object {
     struct vec3 position;
     struct vec3 color;
     float size;
-
     float (*map)(struct object* obj, struct vec3* ray_pos);
-
     struct shader *shader;
     struct rotation *rotation;
 };
@@ -66,7 +64,9 @@ float surface_map(struct object* obj, struct vec3* ray_pos) {
 float cube_map(struct object* obj, struct vec3* ray_pos) {
     struct vec3 local_pos = *ray_pos;
     sub_vec3(&local_pos, &obj->position);
-    obj->rotation->apply_rotation(&local_pos, obj->rotation);
+    if(obj->rotation != NULL) {
+        obj->rotation->apply_rotation(&local_pos, obj->rotation);
+    }
     vec3_abs(&local_pos);
     sub_scalar(&local_pos, obj->size);
     float clamped_dist = min(max(local_pos.x, max(local_pos.y, local_pos.z)), 0.0);

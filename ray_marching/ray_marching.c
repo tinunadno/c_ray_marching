@@ -1,8 +1,3 @@
-#include <math.h>
-#include <stdint-gcc.h>
-#include <time.h>
-#include <stdio.h>
-
 #include "../math_additions/vec3.h"
 #include "../object/object.h"
 #include "../scene_meta_inf/scene.h"
@@ -74,7 +69,6 @@ struct ray_march_return{
   struct vec3 ray;
 };
 
-long long unsigned int map_only =0;
 struct ray_march_return march_ray(struct vec3* position, struct vec3* rotation, struct scene *scene) {
 
     struct vec3 local_rotation = *rotation;
@@ -94,14 +88,7 @@ struct ray_march_return march_ray(struct vec3* position, struct vec3* rotation, 
         mul_scal_vec3(&step, total_distance);
         ray = *position;
         add_vec3(&ray, &step);
-        uint64_t diff;
-        struct timespec start, end;
-        clock_gettime(CLOCK_MONOTONIC, &start);
         distance = map(&ray, scene);
-        clock_gettime(CLOCK_MONOTONIC, &end);       /* mark the end time */
-
-        diff = 1000000000L * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec;
-        map_only+=diff;
         total_distance+=distance;
     }
 
@@ -111,33 +98,14 @@ struct ray_march_return march_ray(struct vec3* position, struct vec3* rotation, 
     };
 }
 
-
-long long unsigned int total_diff_marching =0;
-long long unsigned int total_diff_shadering =0;
-
 struct vec3 render_pixel(struct vec3* uv, struct scene* scene){
-
-    uint64_t diff;
-    struct timespec start, end;
-    clock_gettime(CLOCK_MONOTONIC, &start);     /* mark start time */
-
-
     struct vec3 rotation = scene->scene_camera->camera_rotation;
     sub_vec3(&rotation, &scene->scene_camera->camera_position);
     add_vec3(&rotation, uv);
 
-
-
     struct ray_march_return result = march_ray(&scene->scene_camera->camera_position, &rotation, scene);
 
-    clock_gettime(CLOCK_MONOTONIC, &end);       /* mark the end time */
-
-    diff = 1000000000L * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec;
-    total_diff_marching+=diff;
-
-
     struct vec3 temp;
-    clock_gettime(CLOCK_MONOTONIC, &start);     /* mark start time */
     if(result.is_crossed){
         temp = get_color(&result.ray, scene);
     }else{
@@ -145,15 +113,5 @@ struct vec3 render_pixel(struct vec3* uv, struct scene* scene){
             0,0,0
         };
     }
-    clock_gettime(CLOCK_MONOTONIC, &end);       /* mark the end time */
-
-    diff = 1000000000L * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec;
-    total_diff_shadering+=diff;
     return temp;
-}
-
-void asd(){
-    printf("elapsed time for marching = %f seconds\n", (double) total_diff_marching/1000000000.0);
-    printf("elapsed time for shading = %f seconds\n", (double) total_diff_shadering/1000000000.0);
-    printf("elapsed time for mapping = %f seconds\n", (double) map_only/1000000000.0);
 }

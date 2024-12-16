@@ -29,8 +29,8 @@ struct scene *setup_scene_settings() {
 
     scene->scene_camera = malloc(sizeof(struct camera));
 
-    scene->scene_camera->camera_position = (struct vec3) {-10.0f, 3, 2};
-    scene->scene_camera->camera_rotation = (struct vec3) {-5.0f, 2, 1};
+    scene->scene_camera->camera_position = (struct vec3) {-10.0f, 0, 2};
+    scene->scene_camera->camera_rotation = (struct vec3) {-5.0f, 0, 1};
 
     scene->scene_objects_count = 0;
     scene->object_relations_count = 1;
@@ -69,7 +69,7 @@ struct scene *setup_scene_settings() {
             1.0f,
             cube_map,
             cube_shader,
-            cube_rotation
+            0
     };
     scene->object_relations[0].objects[1] = (struct object) {
             {-1, 0.0f, 0},
@@ -82,7 +82,7 @@ struct scene *setup_scene_settings() {
     scene->object_relations[0].objects[2] = (struct object) {
             {-1.0f, 1.2f, 0.2f},
             {0, 128, 12},
-            0.5f,
+            1.5f,
             sphere_map,
             cube_shader,
             0

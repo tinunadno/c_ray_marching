@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: Project
+# Project: ray_marching
 # Configurations: Debug
 # =============================================================================
 
@@ -41,94 +41,85 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = /home/yura/Applications/clion/clionProjects/temp/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target image-transform
+# Object build statements for EXECUTABLE target ray-marching
 
 
 #############################################
-# Order-only phony target for image-transform
+# Order-only phony target for ray-marching
 
-build cmake_object_order_depends_target_image-transform: phony || .
+build cmake_object_order_depends_target_ray-marching: phony || .
 
-build CMakeFiles/image-transform.dir/main.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/main.c || cmake_object_order_depends_target_image-transform
-  DEP_FILE = CMakeFiles/image-transform.dir/main.o.d
+build CMakeFiles/ray-marching.dir/main.o: C_COMPILER__ray-marching_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/main.c || cmake_object_order_depends_target_ray-marching
+  DEP_FILE = CMakeFiles/ray-marching.dir/main.o.d
   FLAGS = -g -fdiagnostics-color=always
-  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
-  OBJECT_DIR = CMakeFiles/image-transform.dir
-  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir
+  OBJECT_DIR = CMakeFiles/ray-marching.dir
+  OBJECT_FILE_DIR = CMakeFiles/ray-marching.dir
 
-build CMakeFiles/image-transform.dir/IO/bmp_writer.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/IO/bmp_writer.c || cmake_object_order_depends_target_image-transform
-  DEP_FILE = CMakeFiles/image-transform.dir/IO/bmp_writer.o.d
+build CMakeFiles/ray-marching.dir/IO/bmp_writer.o: C_COMPILER__ray-marching_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/IO/bmp_writer.c || cmake_object_order_depends_target_ray-marching
+  DEP_FILE = CMakeFiles/ray-marching.dir/IO/bmp_writer.o.d
   FLAGS = -g -fdiagnostics-color=always
-  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
-  OBJECT_DIR = CMakeFiles/image-transform.dir
-  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/IO
+  OBJECT_DIR = CMakeFiles/ray-marching.dir
+  OBJECT_FILE_DIR = CMakeFiles/ray-marching.dir/IO
 
-build CMakeFiles/image-transform.dir/ray_marching/ray_marching.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/ray_marching/ray_marching.c || cmake_object_order_depends_target_image-transform
-  DEP_FILE = CMakeFiles/image-transform.dir/ray_marching/ray_marching.o.d
+build CMakeFiles/ray-marching.dir/ray_marching/ray_marching.o: C_COMPILER__ray-marching_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/ray_marching/ray_marching.c || cmake_object_order_depends_target_ray-marching
+  DEP_FILE = CMakeFiles/ray-marching.dir/ray_marching/ray_marching.o.d
   FLAGS = -g -fdiagnostics-color=always
-  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
-  OBJECT_DIR = CMakeFiles/image-transform.dir
-  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/ray_marching
+  OBJECT_DIR = CMakeFiles/ray-marching.dir
+  OBJECT_FILE_DIR = CMakeFiles/ray-marching.dir/ray_marching
 
-build CMakeFiles/image-transform.dir/object/objects.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/object/objects.c || cmake_object_order_depends_target_image-transform
-  DEP_FILE = CMakeFiles/image-transform.dir/object/objects.o.d
+build CMakeFiles/ray-marching.dir/object/objects.o: C_COMPILER__ray-marching_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/object/objects.c || cmake_object_order_depends_target_ray-marching
+  DEP_FILE = CMakeFiles/ray-marching.dir/object/objects.o.d
   FLAGS = -g -fdiagnostics-color=always
-  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
-  OBJECT_DIR = CMakeFiles/image-transform.dir
-  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/object
+  OBJECT_DIR = CMakeFiles/ray-marching.dir
+  OBJECT_FILE_DIR = CMakeFiles/ray-marching.dir/object
 
-build CMakeFiles/image-transform.dir/math_additions/vec3.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/math_additions/vec3.c || cmake_object_order_depends_target_image-transform
-  DEP_FILE = CMakeFiles/image-transform.dir/math_additions/vec3.o.d
+build CMakeFiles/ray-marching.dir/math_additions/vec3.o: C_COMPILER__ray-marching_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/math_additions/vec3.c || cmake_object_order_depends_target_ray-marching
+  DEP_FILE = CMakeFiles/ray-marching.dir/math_additions/vec3.o.d
   FLAGS = -g -fdiagnostics-color=always
-  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
-  OBJECT_DIR = CMakeFiles/image-transform.dir
-  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/math_additions
+  OBJECT_DIR = CMakeFiles/ray-marching.dir
+  OBJECT_FILE_DIR = CMakeFiles/ray-marching.dir/math_additions
 
-build CMakeFiles/image-transform.dir/scene_meta_inf/scene.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/scene_meta_inf/scene.c || cmake_object_order_depends_target_image-transform
-  DEP_FILE = CMakeFiles/image-transform.dir/scene_meta_inf/scene.o.d
+build CMakeFiles/ray-marching.dir/scene_meta_inf/scene.o: C_COMPILER__ray-marching_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/scene_meta_inf/scene.c || cmake_object_order_depends_target_ray-marching
+  DEP_FILE = CMakeFiles/ray-marching.dir/scene_meta_inf/scene.o.d
   FLAGS = -g -fdiagnostics-color=always
-  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
-  OBJECT_DIR = CMakeFiles/image-transform.dir
-  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/scene_meta_inf
+  OBJECT_DIR = CMakeFiles/ray-marching.dir
+  OBJECT_FILE_DIR = CMakeFiles/ray-marching.dir/scene_meta_inf
 
-build CMakeFiles/image-transform.dir/shader/shader.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/shader/shader.c || cmake_object_order_depends_target_image-transform
-  DEP_FILE = CMakeFiles/image-transform.dir/shader/shader.o.d
+build CMakeFiles/ray-marching.dir/shader/shader.o: C_COMPILER__ray-marching_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/shader/shader.c || cmake_object_order_depends_target_ray-marching
+  DEP_FILE = CMakeFiles/ray-marching.dir/shader/shader.o.d
   FLAGS = -g -fdiagnostics-color=always
-  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
-  OBJECT_DIR = CMakeFiles/image-transform.dir
-  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/shader
+  OBJECT_DIR = CMakeFiles/ray-marching.dir
+  OBJECT_FILE_DIR = CMakeFiles/ray-marching.dir/shader
 
-build CMakeFiles/image-transform.dir/rotation_stuff/rotation.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/rotation_stuff/rotation.c || cmake_object_order_depends_target_image-transform
-  DEP_FILE = CMakeFiles/image-transform.dir/rotation_stuff/rotation.o.d
+build CMakeFiles/ray-marching.dir/rotation_stuff/rotation.o: C_COMPILER__ray-marching_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/rotation_stuff/rotation.c || cmake_object_order_depends_target_ray-marching
+  DEP_FILE = CMakeFiles/ray-marching.dir/rotation_stuff/rotation.o.d
   FLAGS = -g -fdiagnostics-color=always
-  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
-  OBJECT_DIR = CMakeFiles/image-transform.dir
-  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/rotation_stuff
+  OBJECT_DIR = CMakeFiles/ray-marching.dir
+  OBJECT_FILE_DIR = CMakeFiles/ray-marching.dir/rotation_stuff
 
-build CMakeFiles/image-transform.dir/some_structures/linked_list.o: C_COMPILER__image-transform_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/some_structures/linked_list.c || cmake_object_order_depends_target_image-transform
-  DEP_FILE = CMakeFiles/image-transform.dir/some_structures/linked_list.o.d
+build CMakeFiles/ray-marching.dir/some_structures/linked_list.o: C_COMPILER__ray-marching_unscanned_Debug /home/yura/Applications/clion/clionProjects/temp/some_structures/linked_list.c || cmake_object_order_depends_target_ray-marching
+  DEP_FILE = CMakeFiles/ray-marching.dir/some_structures/linked_list.o.d
   FLAGS = -g -fdiagnostics-color=always
-  INCLUDES = -I/home/yura/Applications/clion/clionProjects/temp/src -I/home/yura/Applications/clion/clionProjects/temp/include
-  OBJECT_DIR = CMakeFiles/image-transform.dir
-  OBJECT_FILE_DIR = CMakeFiles/image-transform.dir/some_structures
+  OBJECT_DIR = CMakeFiles/ray-marching.dir
+  OBJECT_FILE_DIR = CMakeFiles/ray-marching.dir/some_structures
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target image-transform
+# Link build statements for EXECUTABLE target ray-marching
 
 
 #############################################
-# Link the executable image-transform
+# Link the executable ray-marching
 
-build image-transform: C_EXECUTABLE_LINKER__image-transform_Debug CMakeFiles/image-transform.dir/main.o CMakeFiles/image-transform.dir/IO/bmp_writer.o CMakeFiles/image-transform.dir/ray_marching/ray_marching.o CMakeFiles/image-transform.dir/object/objects.o CMakeFiles/image-transform.dir/math_additions/vec3.o CMakeFiles/image-transform.dir/scene_meta_inf/scene.o CMakeFiles/image-transform.dir/shader/shader.o CMakeFiles/image-transform.dir/rotation_stuff/rotation.o CMakeFiles/image-transform.dir/some_structures/linked_list.o
+build ray-marching: C_EXECUTABLE_LINKER__ray-marching_Debug CMakeFiles/ray-marching.dir/main.o CMakeFiles/ray-marching.dir/IO/bmp_writer.o CMakeFiles/ray-marching.dir/ray_marching/ray_marching.o CMakeFiles/ray-marching.dir/object/objects.o CMakeFiles/ray-marching.dir/math_additions/vec3.o CMakeFiles/ray-marching.dir/scene_meta_inf/scene.o CMakeFiles/ray-marching.dir/shader/shader.o CMakeFiles/ray-marching.dir/rotation_stuff/rotation.o CMakeFiles/ray-marching.dir/some_structures/linked_list.o
   FLAGS = -g
   LINK_FLAGS = -rdynamic
   LINK_LIBRARIES = -lm
-  OBJECT_DIR = CMakeFiles/image-transform.dir
+  OBJECT_DIR = CMakeFiles/ray-marching.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = image-transform
-  TARGET_PDB = image-transform.dbg
+  TARGET_FILE = ray-marching
+  TARGET_PDB = ray-marching.dbg
 
 
 #############################################
@@ -164,7 +155,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /home/yura/Applications/clion/clionProjects/temp/cmake-build-debug
 
-build all: phony image-transform
+build all: phony ray-marching
 
 # =============================================================================
 # Unknown Build Time Dependencies.
