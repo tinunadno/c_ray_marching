@@ -11,6 +11,9 @@ set(sources
         src/shader/shader.c
         src/rotation_stuff/rotation.c
         src/some_structures/linked_list.c
+        src/IO/xml_parser.c
+        src/string_additions/string_additions.c
+        src/string_additions/string_additions.h
 )
 
 add_executable(ray-marching ${sources})
