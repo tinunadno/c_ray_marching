@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdint-gcc.h>
 #include <stdlib.h>
-#include <memory.h>
 #include "../scene_meta_inf/scene.h"
 #include "../string_additions/string_additions.h"
 #include "../some_structures/linked_list.h"
+#include "../some_structures/stack.h"
+#include "../object/object.h"
 
 struct xml_tree{
     char* tag;
@@ -38,6 +39,58 @@ static char* get_tag_middle(char* xml, char* tag){
     free(full_tag_closed);
 
     return get_sub_string(xml, tag_start + tag_start_length, tag_end);
+}
+
+static char* get_tag_body_from_index(char* xml_file, uint32_t index, uint32_t* right_bracket_index){
+    *right_bracket_index = find_sub_string_from_index(xml_file, ">", 0, index);
+    return get_sub_string(xml_file,
+                          find_sub_string_from_index(xml_file, "<", 0, index) + 1,
+                          *right_bracket_index);
+}
+
+
+static bool validate_xml(char* xml_file){
+    struct stack* tag_stack = create_stack_instance(0);
+    uint32_t i = 0;
+    uint32_t file_length = get_string_length(xml_file);
+    while(i < file_length){
+        char* tag = get_tag_body_from_index(xml_file, i, &i);
+        i ++;
+        if(tag[0] == '/'){
+            char* prev_tag = (char*)pop_from_stack(&tag_stack);
+            if(!tag_stack || !compare_strings(tag+1, (char*)prev_tag)){
+                if(prev_tag != NULL) {
+                    fprintf(stderr, "<==============================>"
+                                    "\nerror in xml configuration file:\ntag <%s> can't be closed with </%s>\n"
+                                    "<==============================>\n\n",
+                                    prev_tag, tag + 1);
+                }else{
+                    fprintf(stderr, "<==============================>"
+                                    "\nerror in xml configuration file:\ntag <%s> is not opened, but <%s> exists!\n"
+                                    "<==============================>\n\n",
+                                    tag+1, tag);
+                }
+
+                free(prev_tag);
+                free_stack(tag_stack);
+                return false;
+            }
+            free(prev_tag);
+        }else{
+            push_to_stack(&tag_stack, (size_t)(void*)tag);
+        }
+    }
+    bool ret = tag_stack!=NULL && tag_stack->cell_number == 0;
+    if(tag_stack!=NULL && !ret){
+        char* prev_tag = (char*)pop_from_stack(&tag_stack);
+        fprintf(stderr, "<==============================>"
+                        "\nerror in xml configuration file:\ntag <%s> is not closed!\n"
+                        "<==============================>\n\n",
+                        prev_tag);
+        free(prev_tag);
+    }
+    free_stack(tag_stack);
+    return ret;
 }
 
 static struct xml_tree* parse_xml(char* xml_file) {
@@ -88,7 +141,7 @@ static struct xml_tree* parse_xml(char* xml_file) {
             if (!ret->children) {
                 ret->children = create_node((size_t)(void*)child);
             } else {
-                add_element(&ret->children, (size_t)(void*)child);
+                add_element_to_linked_list(&ret->children, (size_t) (void *) child);
             }
 
             free(middle);
@@ -99,7 +152,7 @@ static struct xml_tree* parse_xml(char* xml_file) {
                 if (!ret->children) {
                     ret->children = create_node((size_t)(void*)child);
                 } else {
-                    add_element(&ret->children, (size_t)(void*)child);
+                    add_element_to_linked_list(&ret->children, (size_t) (void *) child);
                 }
             }
 
@@ -120,7 +173,6 @@ static struct xml_tree* parse_xml(char* xml_file) {
 
     return ret;
 }
-
 
 static void print_xml_tree(struct xml_tree* xml_tree, uint32_t rec_depth){
     char* tabulation = mul_string("\t", rec_depth);
@@ -164,9 +216,11 @@ static void free_xml_tree(struct xml_tree* xml_tree){
         free_xml_tree((struct xml_tree*)(void*)current_child->data);
         current_child = current_child->next;
     }
-    free_list(&xml_tree->children);
+    free_linked_list(&xml_tree->children);
     free(xml_tree);
 }
+
+void test(struct xml_tree* xml_tree);
 
 struct scene *parse_scene(char *xml_file_path) {
 
@@ -195,9 +249,16 @@ struct scene *parse_scene(char *xml_file_path) {
 
     remove_white_spaces(&xml);
     string_to_lower_case(xml);
+
+    bool is_xml_valid =validate_xml(xml);
+    if(!is_xml_valid){
+        perror("Invalid xml file");
+        exit(EXIT_FAILURE);
+    }
     struct xml_tree* xml_tree = parse_xml(xml);
     free(xml_file);
     print_xml_tree(xml_tree, 0);
+    test(xml_tree);
     free_xml_tree(xml_tree);
     //TODO add convertion from xml_tree to struct scene
     return NULL;

@@ -22,13 +22,13 @@ struct object {
 };
 
 void destroy_object(struct object *obj, struct node* freed_pointers) {
-    if(!contains_element(freed_pointers, (size_t)(void*)obj->shader)) {
-        add_element(&freed_pointers, (size_t)(void*)obj->shader);
+    if(!linked_list_contains_element(freed_pointers, (size_t) (void *) obj->shader)) {
+        add_element_to_linked_list(&freed_pointers, (size_t) (void *) obj->shader);
         free(obj->shader);
     }
     if (obj->rotation != NULL) {
-        if(!contains_element(freed_pointers, (size_t)(void*)obj->rotation)) {
-            add_element(&freed_pointers, (size_t)(void*)obj->rotation);
+        if(!linked_list_contains_element(freed_pointers, (size_t) (void *) obj->rotation)) {
+            add_element_to_linked_list(&freed_pointers, (size_t) (void *) obj->rotation);
             free(obj->rotation);
         }
     }

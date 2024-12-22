@@ -16,9 +16,11 @@ struct node {
 
 struct node *create_node(size_t data);
 
-void add_element(struct node **head, size_t data);
+void add_element_to_linked_list(struct node **head, size_t data);
 
-bool contains_element(struct node* head, size_t data);
+bool linked_list_contains_element(struct node* head, size_t data);
 
-void free_list(struct node** head);
+//uint32_t get_linked_list_node_amount(struct node* head);
+
+void free_linked_list(struct node** head);
 #endif //TEMP_LINKED_LIST_H

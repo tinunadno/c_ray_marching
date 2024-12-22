@@ -128,6 +128,6 @@ void destroy_scene(struct scene *scene) {
     for (int i = 0; i < scene->object_relations_count; i++) {
         destroy_object_relationship(&scene->object_relations[i], freed_pointers);
     }
-    free_list(&freed_pointers);
+    free_linked_list(&freed_pointers);
     free(scene);
 }

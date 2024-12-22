@@ -2,6 +2,7 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint-gcc.h>
 
 struct node {
     size_t data;
@@ -19,7 +20,7 @@ struct node *create_node(size_t data) {
     return new_node;
 }
 
-void add_element(struct node **head, size_t data) {
+void add_element_to_linked_list(struct node **head, size_t data) {
     struct node *new_node = create_node(data);
     struct node *temp = *head;
     while (temp->next) {
@@ -28,7 +29,7 @@ void add_element(struct node **head, size_t data) {
     temp->next = new_node;
 }
 
-bool contains_element(struct node* head, size_t data) {
+bool linked_list_contains_element(struct node* head, size_t data) {
     struct node* temp = head;
     while (temp) {
         if (temp->data == data) {
@@ -39,7 +40,16 @@ bool contains_element(struct node* head, size_t data) {
     return false;
 }
 
-void free_list(struct node** head) {
+uint32_t get_linked_list_node_amount(struct node* head){
+    uint32_t ret = 0;
+    while(head!=NULL){
+        ret++;
+        head = head->next;
+    }
+    return ret;
+}
+
+void free_linked_list(struct node** head) {
     struct node* current = *head;
     struct node* next;
     while (current) {

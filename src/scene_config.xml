@@ -1,92 +1,21 @@
-<scene>
-    <camera>
-        <camera-position>
-            12.8, 32.5, 32.6
-        </camera-position>
-        <camera-rotation>
-            32.12, 32.1, 321.2
-        </camera-rotation>
-    </camera>
-    <light-sources>
-        <light-source>
-            12.32, 32.12, 23.2
-        </light-source>
-        <light-source>
-            12.312, 32.12, 23.2
-        </light-source>
-        <light-source>
-            12.32, 32.122, 23.2
-        </light-source>
-        <light-source>
-            12.32, 32.12, 23.21
-        </light-source>
-    </light-sources>
-    <scene-objects>
-        <object>
-            <position>
-                12.3, 32.2, 12.3
-            </position>
-            <color>
-                4321.2, 123.2, 123.2
-            </color>
-            <size>5</size>
-            <map>CUBE</map>
-            <shader>DIFFUSE_AND_SPECULAR</shader>
-            <rotation>
-                12.2, 1.1, 5.5
-            </rotation>
-        </object>
-        <object>
-            <position>
-                12.3, 232.2, 12.3
-            </position>
-            <color>
-                4321.22, 123.2, 123.2
-            </color>
-            <size>52</size>
-            <map>SPHERE</map>
-            <shader>DIFFUSE_AND_SPECULAR</shader>
-            <rotation>
-                12.2, 1.11, 5.5
-            </rotation>
-        </object>
-    </scene-objects>
-    <object-relations>
-        <objects>
-            <object>
-                <position>
-                    12.3, 32.2, 12.3
-                </position>
-                <color>
-                    4321.2, 123.2, 123.2
-                </color>
-                <size>5</size>
-                <map>CUBE</map>
-                <shader>DIFFUSE_AND_SPECULAR</shader>
-                <rotation>
-                    12.2, 1.1, 5.5
-                </rotation>
-            </object>
-            <object>
-                <position>
-                    12.3, 232.2, 12.3
-                </position>
-                <color>
-                    4321.22, 123.2, 123.2
-                </color>
-                <size>52</size>
-                <map>SPHERE</map>
-                <shader>DIFFUSE_AND_SPECULAR</shader>
-                <rotation>
-                    12.2, 1.11, 5.5
-                </rotation>
-            </object>
-        </objects>
-        <map>
-            merge_map
-        </map>
-        <shader-processing>
-            merge_shader
-        </shader-processing>
-    </object-relations>
-</scene>
+<object>
+    <position>
+        12.3, 32.2, 12.3
+    </position>
+    <color>
+        4321.2, 123.2, 123.2
+    </color>
+    <size>5</size>
+    <map>CUBE</map>
+    <shader>
+        <ambient>0.5f</ambient>
+        <alpha>0.6f</alpha>
+        <diffuse>3.5f</diffuse>
+        <specular>1.3f</specular>
+        <process_shader>DIFFUSE_AND_SPECULAR</process_shader>
+    </shader>
+    <rotation>
+        <rotation-angles>1.0, 2.0, 3.0</rotation-angles>
+        <rotation-type>QUATERNION</rotation-type>
+    </rotation>
+</object>

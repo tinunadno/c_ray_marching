@@ -115,8 +115,8 @@ void replace_sub_string(char **string, char *old, char *new) {
 void string_to_lower_case(char *string) {
     uint32_t i = 0;
     while(string[i] != '\0'){
-        if(string[i] >= 0x41 && string[i] <= 0x5a){
-            string[i] += (0x61 - 0x41);
+        if(string[i] >= 'A' && string[i] <= 'Z'){
+            string[i] += ('a' - 'A');
         }
         i++;
     }
@@ -130,7 +130,7 @@ bool compare_strings(char* fst_string, char* snd_string){
         }
         i++;
     }
-    return true;
+    return fst_string[i]=='\0' && snd_string[i]=='\0';
 }
 
 char* mul_string(char* string, uint32_t repeat_amount){

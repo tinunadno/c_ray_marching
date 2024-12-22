@@ -14,6 +14,9 @@ set(sources
         src/IO/xml_parser.c
         src/string_additions/string_additions.c
         src/string_additions/string_additions.h
+        src/some_structures/stack.c
+        src/some_structures/stack.h
+        src/IO/xml_tree_to_scene_converter.c
 )
 
 add_executable(ray-marching ${sources})
