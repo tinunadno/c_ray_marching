@@ -14,6 +14,16 @@ struct xml_tree{
     struct node* children;
 };
 
+struct array_names{
+    char* node_name;
+    char* array_name;
+};
+
+struct array_names array_names[] = {
+        {"object-relations", "objects"},
+        {NULL, NULL}
+};
+
 static char* build_tag(char* tag_body, bool is_closed){
     char* first_half = concatenate_strings((is_closed ? "</" : "<"), tag_body);
     char* full_tag = concatenate_strings(first_half, ">");
@@ -154,6 +164,7 @@ static struct xml_tree* parse_xml(char* xml_file) {
                 } else {
                     add_element_to_linked_list(&ret->children, (size_t) (void *) child);
                 }
+                //TODO insert array length
             }
 
             free(middle);
@@ -220,7 +231,8 @@ static void free_xml_tree(struct xml_tree* xml_tree){
     free(xml_tree);
 }
 
-void test(struct xml_tree* xml_tree);
+//im to lazy to do header 4 this:D
+struct scene* convert_xml_tree_to_scene(struct xml_tree* xml_tree);
 
 struct scene *parse_scene(char *xml_file_path) {
 
@@ -258,8 +270,7 @@ struct scene *parse_scene(char *xml_file_path) {
     struct xml_tree* xml_tree = parse_xml(xml);
     free(xml_file);
     print_xml_tree(xml_tree, 0);
-    test(xml_tree);
+    struct scene* scene = convert_xml_tree_to_scene(xml_tree);
     free_xml_tree(xml_tree);
-    //TODO add convertion from xml_tree to struct scene
-    return NULL;
+    return scene;
 }
