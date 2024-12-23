@@ -59,8 +59,6 @@ struct scene *setup_scene_settings() {
     *cube_rotation = (struct rotation) {
             .rotation_angles = (struct vec3) {PI4th, 0, 0},
             .rotation_type = QUATERNION_ROTATION,
-            .calculate_rotation = calculate_quaternion_rotation,
-            .apply_rotation = apply_quaternion_rotation
     };
 
     scene->object_relations[0].objects[0] = (struct object) {
@@ -103,10 +101,24 @@ struct scene *setup_scene_settings() {
 
 void calculate_rotations(struct scene *scene) {
     for (int i = 0; i < scene->scene_objects_count; i++) {
+        if(scene->scene_objects[i].rotation->rotation_type == QUATERNION_ROTATION){
+            scene->scene_objects[i].rotation->calculate_rotation = calculate_quaternion_rotation;
+            scene->scene_objects[i].rotation->apply_rotation = apply_quaternion_rotation;
+        }else if(scene->scene_objects[i].rotation->rotation_type == MATRIX_ROTATION){
+            scene->scene_objects[i].rotation->calculate_rotation = calculate_matrix_rotation_matrix;
+            scene->scene_objects[i].rotation->apply_rotation = apply_matrix_rotation;
+        }
         scene->scene_objects[i].rotation->calculate_rotation(scene->scene_objects[i].rotation);
     }
     for (int i = 0; i < scene->object_relations_count; i++) {
         for (int j = 0; j < scene->object_relations[i].object_count; j++) {
+            if(scene->object_relations[i].objects[j].rotation->rotation_type == QUATERNION_ROTATION){
+                scene->object_relations[i].objects[j].rotation->calculate_rotation = calculate_quaternion_rotation;
+                scene->object_relations[i].objects[j].rotation->apply_rotation = apply_quaternion_rotation;
+            }else if(scene->object_relations[i].objects[j].rotation->rotation_type == MATRIX_ROTATION){
+                scene->object_relations[i].objects[j].rotation->calculate_rotation = calculate_matrix_rotation_matrix;
+                scene->object_relations[i].objects[j].rotation->apply_rotation = apply_matrix_rotation;
+            }
             if (scene->object_relations[i].objects[j].rotation != NULL) {
                 scene->object_relations[i].objects[j].rotation->calculate_rotation(
                         scene->object_relations[i].objects[j].rotation);
