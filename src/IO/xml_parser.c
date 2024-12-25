@@ -82,10 +82,12 @@ static bool validate_xml(char* xml_file){
                 }
 
                 free(prev_tag);
+                free(tag);
                 free_stack(tag_stack);
                 return false;
             }
             free(prev_tag);
+            free(tag);
         }else{
             push_to_stack(&tag_stack, (size_t)(void*)tag);
         }
@@ -117,7 +119,7 @@ static struct xml_tree* parse_xml(char* xml_file) {
         return NULL;
     }
 
-    ret->tag = copy_string("root");
+    ret->tag = NULL;
     ret->data = NULL;
     ret->is_leaf = false;
     ret->children = NULL;
@@ -127,12 +129,14 @@ static struct xml_tree* parse_xml(char* xml_file) {
         char* closed_tag = build_tag(tag, true);
         i = find_sub_string(xml_file, closed_tag, 0);
         if (i == -1) {
+            free(tag);
             free(closed_tag);
             break;
         }
 
         char* middle = get_tag_middle(xml_file, tag);
         if (!middle) {
+            free(tag);
             free(closed_tag);
             break;
         }
@@ -153,8 +157,6 @@ static struct xml_tree* parse_xml(char* xml_file) {
             } else {
                 add_element_to_linked_list(&ret->children, (size_t) (void *) child);
             }
-
-            free(middle);
         } else {
             struct xml_tree* child = parse_xml(middle);
             if (child) {
@@ -164,16 +166,14 @@ static struct xml_tree* parse_xml(char* xml_file) {
                 } else {
                     add_element_to_linked_list(&ret->children, (size_t) (void *) child);
                 }
-                //TODO insert array length
             }
-
-            free(middle);
         }
 
         char* temp = xml_file + i + get_string_length(closed_tag);
         xml_file = temp;
 
         free(tag);
+        free(middle);
         tag = get_tag_body(xml_file);
         if (!tag) {
             free(closed_tag);
@@ -204,7 +204,8 @@ static void print_xml_tree(struct xml_tree* xml_tree, uint32_t rec_depth){
     }
     struct node* current_child = xml_tree->children;
     printf("%s", tabulation);
-    printf("%s\n", xml_tree->tag);
+    if(xml_tree->tag!=NULL)
+        printf("%s\n", xml_tree->tag);
     while(current_child!=NULL){
         print_xml_tree((struct xml_tree*)(void*)(current_child->data), rec_depth+1);
         current_child = current_child->next;
@@ -228,6 +229,7 @@ static void free_xml_tree(struct xml_tree* xml_tree){
         current_child = current_child->next;
     }
     free_linked_list(&xml_tree->children);
+    free(xml_tree->tag);
     free(xml_tree);
 }
 
@@ -257,8 +259,9 @@ struct scene *parse_scene(char *xml_file_path) {
     if (fread(xml, file_size, 1, xml_file) == -1) {
         free(xml);
         fclose(xml_file);
+        exit(EXIT_FAILURE);
     }
-
+    fclose(xml_file);
     remove_white_spaces(&xml);
     string_to_lower_case(xml);
 
@@ -268,7 +271,7 @@ struct scene *parse_scene(char *xml_file_path) {
         exit(EXIT_FAILURE);
     }
     struct xml_tree* xml_tree = parse_xml(xml);
-    free(xml_file);
+    free(xml);
     print_xml_tree(xml_tree, 0);
     struct scene* scene = convert_xml_tree_to_scene(xml_tree);
     free_xml_tree(xml_tree);

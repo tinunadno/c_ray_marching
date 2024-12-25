@@ -38,6 +38,13 @@ struct available_enums{
     uint32_t enum_value;
 };
 
+char* not_necessary_fields[] = {
+        "light-sources",
+        "scene-objects",
+        "object-relations",
+        NULL
+};
+
 struct available_functions available_functions[] = {
         {"diffuse_and_specular", diffuse_and_specular_shader},
         {"cube", cube_map},
@@ -112,14 +119,27 @@ void parse_enum(const char* description, void* field_address){
     exit(EXIT_FAILURE);
 }
 
+static bool check_necessary(char* field_name){
+    for(int i = 0; not_necessary_fields[i]!=NULL; i++){
+        if(compare_strings(field_name, not_necessary_fields[i]))
+            return true;
+    }
+    return false;
+}
+
 void parse_struct(struct xml_tree* xml_tree, void* structure, struct field_meta_description* field_meta_description){
     for(int i = 0; field_meta_description[i].field_name != NULL; i++){
         struct xml_tree* current_field_node = find_node_by_tag(xml_tree, field_meta_description[i].field_name);
         if(!current_field_node){
-            fprintf(stderr, "field %s not defined in xml confing", field_meta_description[i].field_name);
-            exit(EXIT_FAILURE);
-        }
-        if(field_meta_description[i].is_array){
+            if(check_necessary(field_meta_description[i].field_name)){
+                if(field_meta_description[i].is_array){
+                    field_meta_description[i].non_primitive_parser(current_field_node, &field_meta_description[i], (char*)structure);
+                }
+            }else {
+                fprintf(stderr, "field %s not defined in xml confing", field_meta_description[i].field_name);
+                exit(EXIT_FAILURE);
+            }
+        }else if(field_meta_description[i].is_array){
             field_meta_description[i].non_primitive_parser(current_field_node, &field_meta_description[i], (char*)structure);
         }else if(field_meta_description[i].inner_structures != NULL){
             void* inner_struct = malloc(field_meta_description[i].field_size);
@@ -137,6 +157,10 @@ void parse_struct(struct xml_tree* xml_tree, void* structure, struct field_meta_
 }
 
 void parse_array(struct xml_tree* xml_tree, struct field_meta_description* array_description, void *field_address){
+    if(!xml_tree){
+        *(uint32_t *)(field_address + array_description->inner_structures->displacement) = 0;
+        return;
+    }
     struct node* children = xml_tree->children;
     uint32_t children_amount = get_linked_list_node_amount(children);
     *(uint32_t *)(field_address + array_description->inner_structures->displacement) = children_amount;
@@ -173,8 +197,8 @@ struct scene* convert_xml_tree_to_scene(struct xml_tree* xml_tree){
             {"color", false,sizeof(struct vec3), offsetof(struct object, color), parse_vec3, NULL},
             {"size", false,sizeof(float), offsetof(struct object, size), parse_float, NULL},
             {"map", false,sizeof(float (*)(struct object* obj, struct vec3* ray_pos)), offsetof(struct object, map), parse_function, NULL},
-            {"shader", false,sizeof(struct shader*), offsetof(struct object, shader), 0, shader_fields},
-            {"rotation", false,sizeof(struct rotation*), offsetof(struct object, rotation), 0, rotation_fields},
+            {"shader", false,sizeof(struct shader), offsetof(struct object, shader), 0, shader_fields},
+            {"rotation", false,sizeof(struct rotation), offsetof(struct object, rotation), 0, rotation_fields},
             {NULL, false,0, 0, NULL, NULL}
     };
     struct field_meta_description objects_array_description = {"objects_count", false, sizeof(int), offsetof(struct object_relationship, object_count), NULL, object_fields};
@@ -191,7 +215,7 @@ struct scene* convert_xml_tree_to_scene(struct xml_tree* xml_tree){
     struct field_meta_description scene_objects_array_description = {"scene_objects_count", false, sizeof(int),offsetof(struct scene, scene_objects_count), NULL, object_fields};
     struct field_meta_description scene_relations_array_description = {"object_relationship_count", false, sizeof(int),offsetof(struct scene, object_relations_count), NULL, object_relationship_fields};
     struct field_meta_description scene_fields[] = {
-            {"camera", false, sizeof(struct camera*), offsetof(struct scene, scene_camera), 0, camera_fields},
+            {"camera", false, sizeof(struct camera), offsetof(struct scene, scene_camera), 0, camera_fields},
             {"light-sources", true, sizeof(struct vec3), offsetof(struct scene, light_sources), .non_primitive_parser = parse_array, &light_sources_array_description},
             {"scene-objects", true, sizeof(struct object), offsetof(struct scene, scene_objects), .non_primitive_parser = parse_array, &scene_objects_array_description},
             {"object-relations", true, sizeof(struct object_relationship), offsetof(struct scene, object_relations), .non_primitive_parser = parse_array, &scene_relations_array_description},

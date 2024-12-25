@@ -1,3 +1,11 @@
+**Render examples**
+
+![img.png](contents/render_examples/render_example1.png)
+
+![render_example2.png](contents/render_examples/render_example2.png)
+
+![render_example3.png](contents/render_examples/render_example3.png)
+
 **Basic description of the algorithm**
 
 each object is described by the SDF (signed distance function)
@@ -32,6 +40,43 @@ difference example
 intersection example
 
 ![intersection_example.png](contents/ray_marching_explanation/intersection_example.png)
+
+**Scene settings**
+
+all the objects (position, shaders etc), object relations (like merge), camera position and light sources are described
+in .xml configuration file 
+
+you have to pass it to the programs arguments (you can find xml config example in ./src/scene_config.xml)
+
+```bash
+./ray-marching path-to-xml/scene_config.xml
+```
+
+.xml file is parsing to a tree in the ./IO/xml_parser.c (with basic xml syntax checks) and then
+tree is converted into a structure scene in the ./IO/xml_tree_to_scene_converter with structure checks (that necessary fields
+ are described in xml file), all the structures are described in field_meta_description structure
+
+```c
+struct field_meta_description{
+    char* field_name;
+    bool is_array;
+    size_t field_size;
+    size_t displacement;
+    union {
+        void (*primitive_handler)(const char *data, void *field_address);
+        void (*non_primitive_parser)(struct xml_tree* xml_tree, struct field_meta_description* array_description, void *field_address);
+    };
+    struct field_meta_description* inner_structures;
+};
+```
+
+and convertion is going depends on structures fields description, if you wanna add some custom maps, shaders, or object 
+relations, you should first implement them and then add their names into available functions array in the ./IO/xml_tree_to_scene_converter
+ just to let converter know if this functions exists
+
+but you are also allowed to configure scene straight in code with out parsing xml file in ./scene_meta_inf/scene.c setup_scene_settings
+ this describing method is just a little bit more flexible, and faster, and I haven't debbuged xml parsing and convertion to 
+struct properly
 
 **Realization description**
 
@@ -181,11 +226,6 @@ pixel position is given in (struct vec3) {0, x, y}, when x and y are pixel coord
 it simply finds out that the ray released from a given camera pixel intersects the object, and if so, returns the color
 obtained by using its shader
 
-**scene settings** are set in setup_scene_settings function in ./scene_meta_inf/scene.c,
-its also allocating all the memory, necessary for the scene info
-
-all the allocated memory then frying in destroy_scene function
-
 **render wrapper**
 
 render goes in the main.c main function, first image sizes are defined, then it's allocating memory
@@ -197,14 +237,6 @@ to get its color, than it's frying all the allocated memory and writes rendered 
 
 rendered image is saved to .bmp file in function ./IO/bmp_writer.c write_bmp_file it takes path for saving, unsigned char buffer 
 (rendered image) and its size
-
-**some additions**
-
-in math additions now only vec3 and its basic operations
-
-in some_structures only linked list, that used for controlling freed memory,
-because some objects may share same shader or rotation structures, that are allocating separately from objects,
-and while frying memory, their addresses stored in linked list to see if this address is already freed
 
 **P.S.**
 
@@ -220,11 +252,3 @@ just comment this "if" and ray calculation:
     }
     //... other code
 ```
-
-**Render examples**
-
-![img.png](contents/render_examples/render_example1.png)
-
-![render_example2.png](contents/render_examples/render_example2.png)
-
-![render_example3.png](contents/render_examples/render_example3.png)

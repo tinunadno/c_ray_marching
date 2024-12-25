@@ -1,164 +1,86 @@
 <scene>
     <camera>
         <camera-position>
-            12.8, 32.5, 32.6
+            -10, 0, 2
         </camera-position>
         <camera-rotation>
-            32.12, 32.1, 321.2
+            -5, 0, 1
         </camera-rotation>
     </camera>
     <light-sources>
         <light-source>
-            12.32, 32.12, 23.2
+            5.0, 5.0, 5.0
         </light-source>
         <light-source>
-            12.312, 32.12, 23.2
+            5.0, -5.0, 5.0
         </light-source>
         <light-source>
-            12.32, 32.122, 23.2
-        </light-source>
-        <light-source>
-            12.32, 32.12, 23.21
+            -5.0, -5.0, -5.0
         </light-source>
     </light-sources>
-    <scene-objects>
-        <object>
-            <position>
-                12.3, 32.2, 12.3
-            </position>
-            <color>
-                4321.2, 123.2, 123.2
-            </color>
-            <size>5</size>
-            <map>CUBE</map>
-            <shader>
-                <ambient>0.5</ambient>
-                <alpha>0.6</alpha>
-                <diffuse>3.5</diffuse>
-                <specular>1.3</specular>
-                <process_shader>DIFFUSE_AND_SPECULAR</process_shader>
-            </shader>
-            <rotation>
-                <rotation-angles>1.0, 2.0, 3.0</rotation-angles>
-                <rotation-type>QUATERNION</rotation-type>
-            </rotation>
-        </object>
-        <object>
-            <position>
-                1.0, 2.0, 3.0
-            </position>
-            <color>
-                4.0, 123.2, 123.2
-            </color>
-            <size>52</size>
-            <map>SPHERE</map>
-            <shader>
-                <ambient>0.6</ambient>
-                <alpha>0.7</alpha>
-                <diffuse>3.6</diffuse>
-                <specular>1.2</specular>
-                <process_shader>DIFFUSE_AND_SPECULAR</process_shader>
-            </shader>
-            <rotation>
-                <rotation-angles>2.0, 1.0, 3.3</rotation-angles>
-                <rotation-type>MATRIX</rotation-type>
-            </rotation>
-        </object>
-    </scene-objects>
     <object-relations>
         <object-relationship>
             <objects>
                 <object>
                     <position>
-                        12.3, 32.2, 12.3
+                        0, -0.8, 0.2
                     </position>
                     <color>
-                        4321.2, 123.2, 123.2
+                        128, 0, 12
                     </color>
-                    <size>5</size>
+                    <size>1</size>
                     <map>CUBE</map>
                     <shader>
-                        <ambient>0.5</ambient>
-                        <alpha>0.6</alpha>
-                        <diffuse>3.5</diffuse>
-                        <specular>1.3</specular>
+                        <ambient>0.4</ambient>
+                        <alpha>4.0</alpha>
+                        <diffuse>0.5</diffuse>
+                        <specular>0.3</specular>
                         <process_shader>DIFFUSE_AND_SPECULAR</process_shader>
                     </shader>
                     <rotation>
-                        <rotation-angles>1.0, 2.0, 3.0</rotation-angles>
-                        <rotation-type>QUATERNION</rotation-type>
-                    </rotation>
-                </object>
-                <object>
-                    <position>
-                        12.3, 232.2, 12.3
-                    </position>
-                    <color>
-                        4321.22, 123.2, 123.2
-                    </color>
-                    <size>52</size>
-                    <map>SPHERE</map>
-                    <shader>
-                        <ambient>0.6</ambient>
-                        <alpha>0.7</alpha>
-                        <diffuse>3.6</diffuse>
-                        <specular>1.2</specular>
-                        <process_shader>DIFFUSE_AND_SPECULAR</process_shader>
-                    </shader>
-                    <rotation>
-                        <rotation-angles>2.0, 1.0, 3.3</rotation-angles>
+                        <rotation-angles>0.0, 0.0, 0.0</rotation-angles>
                         <rotation-type>MATRIX</rotation-type>
                     </rotation>
                 </object>
-            </objects>
-            <map>
-                merge_map
-            </map>
-            <shader-processing>
-                merge_shader
-            </shader-processing>
-        </object-relationship>
-        <object-relationship>
-            <objects>
                 <object>
                     <position>
-                        12.3, 32.2, 12.3
+                        -1, 0, 0
                     </position>
                     <color>
-                        4321.2, 123.2, 122223.2
+                        100, 0, 128
                     </color>
-                    <size>5</size>
-                    <map>CUBE</map>
+                    <size>1.5</size>
+                    <map>SPHERE</map>
                     <shader>
-                        <ambient>0.5</ambient>
-                        <alpha>0.6</alpha>
-                        <diffuse>3.5</diffuse>
-                        <specular>1.3</specular>
+                        <ambient>0.4</ambient>
+                        <alpha>4.0</alpha>
+                        <diffuse>0.5</diffuse>
+                        <specular>0.3</specular>
                         <process_shader>DIFFUSE_AND_SPECULAR</process_shader>
                     </shader>
                     <rotation>
-                        <rotation-angles>1.0, 2.0, 3.0</rotation-angles>
-                        <rotation-type>QUATERNION</rotation-type>
+                        <rotation-angles>0.0, 0.0, 0.0</rotation-angles>
+                        <rotation-type>MATRIX</rotation-type>
                     </rotation>
                 </object>
                 <object>
                     <position>
-                        11232.3, 243232.2, 12.3
+                        -1, 1.2, 0.2
                     </position>
                     <color>
-                        4321.22, 123.2, 123.2
+                        0, 128, 12
                     </color>
-                    <size>52</size>
+                    <size>1.5</size>
                     <map>SPHERE</map>
                     <shader>
-                        <ambient>0.6</ambient>
-                        <alpha>0.7</alpha>
-                        <diffuse>3.6</diffuse>
-                        <specular>1.2</specular>
+                        <ambient>0.4</ambient>
+                        <alpha>4.0</alpha>
+                        <diffuse>0.5</diffuse>
+                        <specular>0.3</specular>
                         <process_shader>DIFFUSE_AND_SPECULAR</process_shader>
                     </shader>
                     <rotation>
-                        <rotation-angles>2.0, 1.0, 3.3</rotation-angles>
+                        <rotation-angles>0.0, 0.0, 0.0</rotation-angles>
                         <rotation-type>MATRIX</rotation-type>
                     </rotation>
                 </object>

@@ -22,6 +22,7 @@ struct object {
 };
 
 void destroy_object(struct object *obj, struct node* freed_pointers) {
+    size_t temp = (size_t)obj;
     if(!linked_list_contains_element(freed_pointers, (size_t) (void *) obj->shader)) {
         add_element_to_linked_list(&freed_pointers, (size_t) (void *) obj->shader);
         free(obj->shader);
@@ -44,11 +45,11 @@ struct object_relationship {
 };
 
 void destroy_object_relationship(struct object_relationship *or, struct node* freed_pointers) {
+    size_t temp = (size_t)or;
     for (int i = 0; i < or->object_count; i++) {
         destroy_object(&or->objects[i], freed_pointers);
     }
     free(or->objects);
-    free(or);
 }
 
 float sphere_map(struct object* obj, struct vec3* ray_pos) {

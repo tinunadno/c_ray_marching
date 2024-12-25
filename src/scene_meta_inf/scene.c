@@ -35,8 +35,10 @@ struct scene *setup_scene_settings() {
     scene->scene_objects_count = 0;
     scene->object_relations_count = 1;
     scene->light_sources_count = 3;
-    scene->scene_objects = malloc(sizeof(struct object) * scene->scene_objects_count);
-    scene->object_relations = malloc(sizeof(struct object_relationship) * scene->object_relations_count);
+    if(scene->scene_objects_count!=0)
+        scene->scene_objects = malloc(sizeof(struct object) * scene->scene_objects_count);
+    if(scene->object_relations_count != 0 )
+        scene->object_relations = malloc(sizeof(struct object_relationship) * scene->object_relations_count);
     scene->light_sources = malloc(sizeof(struct vec3) * scene->light_sources_count);
 
     scene->object_relations[0].object_count = 3;
@@ -67,7 +69,7 @@ struct scene *setup_scene_settings() {
             1.0f,
             cube_map,
             cube_shader,
-            0
+            cube_rotation
     };
     scene->object_relations[0].objects[1] = (struct object) {
             {-1, 0.0f, 0},
@@ -101,25 +103,27 @@ struct scene *setup_scene_settings() {
 
 void calculate_rotations(struct scene *scene) {
     for (int i = 0; i < scene->scene_objects_count; i++) {
-        if(scene->scene_objects[i].rotation->rotation_type == QUATERNION_ROTATION){
-            scene->scene_objects[i].rotation->calculate_rotation = calculate_quaternion_rotation;
-            scene->scene_objects[i].rotation->apply_rotation = apply_quaternion_rotation;
-        }else if(scene->scene_objects[i].rotation->rotation_type == MATRIX_ROTATION){
-            scene->scene_objects[i].rotation->calculate_rotation = calculate_matrix_rotation_matrix;
-            scene->scene_objects[i].rotation->apply_rotation = apply_matrix_rotation;
+        if(scene->scene_objects[i].rotation!=NULL) {
+            if (scene->scene_objects[i].rotation->rotation_type == QUATERNION_ROTATION) {
+                scene->scene_objects[i].rotation->calculate_rotation = calculate_quaternion_rotation;
+                scene->scene_objects[i].rotation->apply_rotation = apply_quaternion_rotation;
+            } else if (scene->scene_objects[i].rotation->rotation_type == MATRIX_ROTATION) {
+                scene->scene_objects[i].rotation->calculate_rotation = calculate_matrix_rotation_matrix;
+                scene->scene_objects[i].rotation->apply_rotation = apply_matrix_rotation;
+            }
+            scene->scene_objects[i].rotation->calculate_rotation(scene->scene_objects[i].rotation);
         }
-        scene->scene_objects[i].rotation->calculate_rotation(scene->scene_objects[i].rotation);
     }
     for (int i = 0; i < scene->object_relations_count; i++) {
         for (int j = 0; j < scene->object_relations[i].object_count; j++) {
-            if(scene->object_relations[i].objects[j].rotation->rotation_type == QUATERNION_ROTATION){
-                scene->object_relations[i].objects[j].rotation->calculate_rotation = calculate_quaternion_rotation;
-                scene->object_relations[i].objects[j].rotation->apply_rotation = apply_quaternion_rotation;
-            }else if(scene->object_relations[i].objects[j].rotation->rotation_type == MATRIX_ROTATION){
-                scene->object_relations[i].objects[j].rotation->calculate_rotation = calculate_matrix_rotation_matrix;
-                scene->object_relations[i].objects[j].rotation->apply_rotation = apply_matrix_rotation;
-            }
-            if (scene->object_relations[i].objects[j].rotation != NULL) {
+            if(scene->object_relations[i].objects[j].rotation != NULL) {
+                if (scene->object_relations[i].objects[j].rotation->rotation_type == QUATERNION_ROTATION) {
+                    scene->object_relations[i].objects[j].rotation->calculate_rotation = calculate_quaternion_rotation;
+                    scene->object_relations[i].objects[j].rotation->apply_rotation = apply_quaternion_rotation;
+                } else if (scene->object_relations[i].objects[j].rotation->rotation_type == MATRIX_ROTATION) {
+                    scene->object_relations[i].objects[j].rotation->calculate_rotation = calculate_matrix_rotation_matrix;
+                    scene->object_relations[i].objects[j].rotation->apply_rotation = apply_matrix_rotation;
+                }
                 scene->object_relations[i].objects[j].rotation->calculate_rotation(
                         scene->object_relations[i].objects[j].rotation);
             }
@@ -139,6 +143,9 @@ void destroy_scene(struct scene *scene) {
     }
     for (int i = 0; i < scene->object_relations_count; i++) {
         destroy_object_relationship(&scene->object_relations[i], freed_pointers);
+    }
+    if(scene->object_relations_count!=0) {
+        free(scene->object_relations);
     }
     free_linked_list(&freed_pointers);
     free(scene);

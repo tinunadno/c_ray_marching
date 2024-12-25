@@ -15,11 +15,14 @@ struct scene *parse_scene(char *xml_file_path);
 
 int main(int argc, char *argv[]) {
 
+
+    struct scene* scene;
     if(argc!=2){
-        perror("usage: ray-marching scene_config.xml");
-        exit(EXIT_FAILURE);
+        scene = setup_scene_settings();
+    }else {
+        char *xml_config_path = argv[1];
+        scene = parse_scene(xml_config_path);
     }
-    char* xml_config_path = argv[1];
 
     int x = 400;
     int y = 200;
@@ -29,7 +32,6 @@ int main(int argc, char *argv[]) {
     uint8_t *screen = malloc(sizeof(uint8_t) * 3 * x * y);
     int row_size = (x * 3);
 
-    struct scene* scene = parse_scene(xml_config_path);
     calculate_rotations(scene);
 
 
@@ -45,5 +47,6 @@ int main(int argc, char *argv[]) {
         }
     }
     destroy_scene(scene);
-    return write_bmp_file("./output.bmp", screen, x, y);
+    int ret =  write_bmp_file("./output.bmp", screen, x, y);
+    return ret;
 }
